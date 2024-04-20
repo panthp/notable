@@ -56,7 +56,7 @@ To modify and test the application locally without Docker:
 
 ## Usage
 
-Once the application is running, you can access it at `http://localhost`.
+Once the application is running, you can access it at `http://localhost:8000`.
 
 ## Development
 
@@ -67,7 +67,7 @@ To modify and test the application locally without Docker:
 2. Run the application using Uvicorn: uvicorn app.main:app --reload
 
 
-This command will start the server on `http://localhost:8000`, where you can access the API and see changes in real-time.
+Again, this command will start the server on `http://localhost:8000`, where you can access the API and see changes in real-time.
 
 ## Contributing
 
