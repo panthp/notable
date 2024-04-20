@@ -9,12 +9,6 @@ This project is a simple web backend built with FastAPI, using SQLAlchemy for OR
 - Dockerized application setup
 - Data validation with Pydantic
 
-## Prerequisites
-
-Before you begin, ensure you have met the following requirements:
-- Docker installed on your machine
-- Basic knowledge of Python and FastAPI
-
 ## Installation
 
 To set up this project, follow these steps:
