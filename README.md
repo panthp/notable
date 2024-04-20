@@ -58,11 +58,6 @@ To modify and test the application locally without Docker:
 
 Once the application is running, you can access it at `http://localhost`.
 
-### API Endpoints
-
-- `GET /`: Returns a simple "Hello, World!" message.
-- `GET /items/`: Fetches the first item from the database.
-
 ## Development
 
 To modify and test the application locally without Docker:
