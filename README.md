@@ -19,7 +19,7 @@ Before you begin, ensure you have met the following requirements:
 
 To set up this project, follow these steps:
 
-1. Clone the repository:
+1. Clone the repository: https://github.com/panthp/notable
 
 
 2. Build the Docker container: docker build -t notable-takehome .
