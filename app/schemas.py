@@ -1,5 +1,6 @@
 from enum import Enum
 from pydantic import BaseModel, validator
+from typing import Optional
 from datetime import datetime
 
 class DoctorCreate(BaseModel):
@@ -40,6 +41,12 @@ class AppointmentBase(BaseModel):
 
 class AppointmentCreate(AppointmentBase):
     pass
+
+class UpdateAppointmentModel(BaseModel):
+    doctor_id: Optional[int] = None
+    date: Optional[str] = None
+    time: Optional[str] = None
+    kind: Optional[str] = None
 
 class Appointment(AppointmentBase):
     id: str # UUID4
