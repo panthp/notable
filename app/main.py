@@ -186,3 +186,70 @@ def delete_appointment(appointment_id: str, db: Session = Depends(get_db)):
         logging.error("Error deleting appointment: %s", str(e))
         # Raise an HTTPException with a 500 status code and the error message as the detail
         raise HTTPException(status_code=500, detail=str(e))
+
+@app.put("/appointments/{appointment_id}/")
+def update_appointment(appointment_id: str, update_values: dict, db: Session = Depends(get_db)):
+    try:
+        appointment = db.query(models.Appointment).filter(models.Appointment.id == appointment_id).first()
+        logging.info("Appointment fetched: %s", appointment.id)
+
+        if "doctor_id" in update_values:
+            logging.info("1")
+            doctor_id = update_values["doctor_id"]
+        else:
+            logging.info("1e")
+            doctor_id = appointment.doctor_id
+
+        if "date" in update_values:
+            logging.info("2")
+            date = update_values["date"]
+        else:
+            logging.info("2e")
+            date = appointment.date
+
+        if "time" in update_values:
+            logging.info("3")
+            time = update_values["time"]
+        else:
+            logging.info("3e")
+            time = appointment.time
+
+        logging.info("Post if")
+        if "date" in update_values or "time" in update_values:
+            logging.info("Changing Time")
+            existing_appointments = db.query(models.Appointment).filter(
+                models.Appointment.doctor_id == doctor_id,
+                models.Appointment.date == date,
+                models.Appointment.time == time
+            ).count()
+            if existing_appointments >= 3:
+                # Log an error if the appointment limit is exceeded
+                logging.error("Attempt to exceed appointment limit at the same time slot")
+                # Raise an HTTPException with a 400 status code and a specific error message
+                raise HTTPException(status_code=400, detail="No more than 3 appointments can be added at the same time slot for a given doctor.")
+            else:
+                logging.info("Setting date and time")
+                setattr(appointment, 'date', date)
+                setattr(appointment, 'time', time) 
+                db.commit()
+
+        if "doctor_id" in update_values:
+            logging.info("Updating doctor_id")
+            setattr(appointment, 'doctor_id', update_values["doctor_id"])
+            db.commit()
+
+        if "kind" in update_values:
+            logging.info("Updating kind")
+            try:
+                setattr(appointment, 'kind', update_values["kind"])
+                db.commit()
+            except Exception as e:
+                logging.error("Pulling failed: %s", e) 
+
+        logging.info("Post updating")
+
+    except Exception as e:
+        # Log the error if there is any exception during the process
+        logging.error("Error updating appointment: %s", str(e))
+        # Raise an HTTPException with a 500 status code and the error message as the detail
+        raise HTTPException(status_code=500, detail=str(e))
